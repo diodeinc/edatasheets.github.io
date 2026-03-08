@@ -7,6 +7,29 @@ const cwd = process.cwd();
 const defaultSchemaPath = path.join(cwd, "generated", "component.compound.schema.json");
 const defaultEntryId = "urn:edatasheets:component-compound-schema";
 
+const constraintKeywords = new Set([
+    "minimum",
+    "maximum",
+    "exclusiveMinimum",
+    "exclusiveMaximum",
+    "multipleOf",
+    "minLength",
+    "maxLength",
+    "pattern",
+    "format",
+    "minItems",
+    "maxItems",
+    "uniqueItems",
+    "contains",
+    "minContains",
+    "maxContains",
+    "minProperties",
+    "maxProperties",
+    "dependentRequired"
+]);
+
+const compositionKeywords = new Set(["oneOf", "anyOf", "allOf", "not", "if", "then", "else"]);
+
 function parseArgs(argv) {
     const args = {
         schemaPath: defaultSchemaPath,
@@ -17,9 +40,17 @@ function parseArgs(argv) {
     for (let i = 0; i < argv.length; i += 1) {
         const arg = argv[i];
         if (arg === "--schema") {
-            args.schemaPath = path.resolve(cwd, argv[++i]);
+            const value = argv[++i];
+            if (!value || value.startsWith("--")) {
+                throw new Error("Missing value for --schema");
+            }
+            args.schemaPath = path.resolve(cwd, value);
         } else if (arg === "--entry-id") {
-            args.entryId = argv[++i];
+            const value = argv[++i];
+            if (!value || value.startsWith("--")) {
+                throw new Error("Missing value for --entry-id");
+            }
+            args.entryId = value;
         } else if (arg === "--help" || arg === "-h") {
             args.help = true;
         } else {
@@ -42,6 +73,14 @@ Options:
 `);
 }
 
+function displayPath(targetPath) {
+    const relative = path.relative(cwd, targetPath);
+    if (relative === "") {
+        return ".";
+    }
+    return relative.startsWith("..") ? targetPath : relative;
+}
+
 function decodePointerToken(token) {
     return token.replace(/~1/g, "/").replace(/~0/g, "~");
 }
@@ -62,17 +101,17 @@ function pointerToFriendlyPath(pointer) {
         return "";
     }
 
-    let out = "";
+    let output = "";
     for (const token of tokens) {
         if (/^\d+$/.test(token)) {
-            out += `[${token}]`;
-        } else if (out === "") {
-            out = token;
+            output += `[${token}]`;
+        } else if (output === "") {
+            output = token;
         } else {
-            out += `.${token}`;
+            output += `.${token}`;
         }
     }
-    return out;
+    return output;
 }
 
 function appendFriendlyPath(basePointer, token) {
@@ -126,16 +165,46 @@ function normalizeRawError(error) {
     };
 }
 
+function createEmptyReport(dataFile) {
+    return {
+        file: displayPath(dataFile),
+        valid: false,
+        summary: {
+            error_count: 0,
+            missing_required: 0,
+            type_errors: 0,
+            enum_errors: 0,
+            unknown_fields: 0,
+            constraint_errors: 0,
+            composition_errors: 0,
+            other_errors: 0
+        },
+        missing_required: [],
+        type_errors: [],
+        enum_errors: [],
+        unknown_fields: [],
+        constraint_errors: [],
+        composition_errors: [],
+        consistency_checks: [],
+        other_errors: [],
+        raw_errors: []
+    };
+}
+
 function buildReport(dataFile, data, errors) {
+    const report = createEmptyReport(dataFile);
+    report.valid = errors.length === 0;
+    report.raw_errors = errors.map(normalizeRawError);
+
     const compositePaths = new Set(
-        errors
-            .filter((error) => error.keyword === "oneOf" || error.keyword === "anyOf" || error.keyword === "allOf")
-            .map((error) => error.instancePath)
+        errors.filter((error) => compositionKeywords.has(error.keyword)).map((error) => error.instancePath)
     );
 
-    const groupedEnumErrors = new Map();
+    const isCompositeNoise = (error) => {
+        if (!["required", "additionalProperties", "enum", "const"].includes(error.keyword)) {
+            return false;
+        }
 
-    function isWithinCompositeBranchNoise(error) {
         for (const compositePath of compositePaths) {
             if (compositePath === "") {
                 if (error.instancePath !== "") {
@@ -148,152 +217,96 @@ function buildReport(dataFile, data, errors) {
             }
         }
         return false;
-    }
-
-    const report = {
-        file: path.relative(cwd, dataFile),
-        valid: errors.length === 0,
-        summary: {
-            error_count: errors.length
-        },
-        missing_required: [],
-        type_errors: [],
-        enum_errors: [],
-        unknown_fields: [],
-        constraint_errors: [],
-        composition_errors: [],
-        consistency_checks: [],
-        other_errors: [],
-        raw_errors: errors.map(normalizeRawError)
     };
 
     for (const error of errors) {
-        const isCompositeBranchNoise =
-            isWithinCompositeBranchNoise(error) &&
-            (error.keyword === "required" || error.keyword === "additionalProperties" || error.keyword === "enum");
-
-        switch (error.keyword) {
-            case "required": {
-                if (isCompositeBranchNoise) {
-                    break;
-                }
-                const missing = error.params.missingProperty;
-                report.missing_required.push(appendFriendlyPath(error.instancePath, missing));
-                break;
-            }
-            case "type": {
-                const actualValue = getValueAtPointer(data, error.instancePath);
-                report.type_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    expected: error.params.type,
-                    actual: getActualType(actualValue),
-                    message: error.message
-                });
-                break;
-            }
-            case "enum": {
-                if (isCompositeBranchNoise) {
-                    const key = error.instancePath;
-                    const current = groupedEnumErrors.get(key) || {
-                        path: pointerToFriendlyPath(error.instancePath),
-                        expected_one_of: [],
-                        actual: getValueAtPointer(data, error.instancePath),
-                        message: "must be equal to one of the allowed values"
-                    };
-                    for (const value of error.params.allowedValues || []) {
-                        if (!current.expected_one_of.includes(value)) {
-                            current.expected_one_of.push(value);
-                        }
-                    }
-                    groupedEnumErrors.set(key, current);
-                    break;
-                }
-                report.enum_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    expected_one_of: error.params.allowedValues,
-                    actual: getValueAtPointer(data, error.instancePath),
-                    message: error.message
-                });
-                break;
-            }
-            case "const": {
-                report.enum_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    expected_one_of: [error.params.allowedValue],
-                    actual: getValueAtPointer(data, error.instancePath),
-                    message: error.message
-                });
-                break;
-            }
-            case "additionalProperties": {
-                if (isCompositeBranchNoise) {
-                    break;
-                }
-                const property = error.params.additionalProperty;
-                report.unknown_fields.push({
-                    path: appendFriendlyPath(error.instancePath, property),
-                    property,
-                    message: error.message
-                });
-                break;
-            }
-            case "minimum":
-            case "maximum":
-            case "exclusiveMinimum":
-            case "exclusiveMaximum":
-            case "multipleOf":
-            case "minLength":
-            case "maxLength":
-            case "pattern":
-            case "format":
-            case "minItems":
-            case "maxItems":
-            case "uniqueItems":
-            case "contains":
-            case "minContains":
-            case "maxContains":
-            case "minProperties":
-            case "maxProperties":
-            case "dependentRequired": {
-                report.constraint_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    keyword: error.keyword,
-                    params: error.params,
-                    actual: getValueAtPointer(data, error.instancePath),
-                    message: error.message
-                });
-                break;
-            }
-            case "oneOf":
-            case "anyOf":
-            case "allOf":
-            case "not":
-            case "if":
-            case "then":
-            case "else": {
-                report.composition_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    keyword: error.keyword,
-                    message: error.message,
-                    params: error.params
-                });
-                break;
-            }
-            default: {
-                report.other_errors.push({
-                    path: pointerToFriendlyPath(error.instancePath),
-                    keyword: error.keyword,
-                    params: error.params,
-                    actual: getValueAtPointer(data, error.instancePath),
-                    message: error.message
-                });
-            }
+        if (isCompositeNoise(error)) {
+            continue;
         }
-    }
 
-    for (const grouped of groupedEnumErrors.values()) {
-        grouped.expected_one_of.sort();
-        report.enum_errors.push(grouped);
+        if (error.keyword === "required") {
+            report.missing_required.push(appendFriendlyPath(error.instancePath, error.params.missingProperty));
+            continue;
+        }
+
+        if (error.keyword === "type") {
+            report.type_errors.push({
+                path: pointerToFriendlyPath(error.instancePath),
+                expected: error.params.type,
+                actual: getActualType(getValueAtPointer(data, error.instancePath)),
+                message: error.message
+            });
+            continue;
+        }
+
+        if (error.keyword === "enum") {
+            report.enum_errors.push({
+                path: pointerToFriendlyPath(error.instancePath),
+                expected_one_of: error.params.allowedValues,
+                actual: getValueAtPointer(data, error.instancePath),
+                message: error.message
+            });
+            continue;
+        }
+
+        if (error.keyword === "const") {
+            report.enum_errors.push({
+                path: pointerToFriendlyPath(error.instancePath),
+                expected_one_of: [error.params.allowedValue],
+                actual: getValueAtPointer(data, error.instancePath),
+                message: error.message
+            });
+            continue;
+        }
+
+        if (error.keyword === "additionalProperties") {
+            const property = error.params.additionalProperty;
+            report.unknown_fields.push({
+                path: appendFriendlyPath(error.instancePath, property),
+                property,
+                message: error.message
+            });
+            continue;
+        }
+
+        if (constraintKeywords.has(error.keyword)) {
+            report.constraint_errors.push({
+                path: pointerToFriendlyPath(error.instancePath),
+                keyword: error.keyword,
+                params: error.params,
+                actual: getValueAtPointer(data, error.instancePath),
+                message: error.message
+            });
+            continue;
+        }
+
+        if (compositionKeywords.has(error.keyword)) {
+            const compositeValue = getValueAtPointer(data, error.instancePath);
+            const item = {
+                path: pointerToFriendlyPath(error.instancePath),
+                keyword: error.keyword,
+                message: error.message,
+                params: error.params
+            };
+            if (
+                compositeValue &&
+                typeof compositeValue === "object" &&
+                !Array.isArray(compositeValue) &&
+                typeof compositeValue.partType === "string"
+            ) {
+                item.actual_part_type = compositeValue.partType;
+            }
+            report.composition_errors.push(item);
+            continue;
+        }
+
+        report.other_errors.push({
+            path: pointerToFriendlyPath(error.instancePath),
+            keyword: error.keyword,
+            params: error.params,
+            actual: getValueAtPointer(data, error.instancePath),
+            message: error.message
+        });
     }
 
     report.missing_required = [...new Set(report.missing_required)];
@@ -318,6 +331,24 @@ function buildReport(dataFile, data, errors) {
     return report;
 }
 
+async function loadAjv2020() {
+    try {
+        const module = await import("ajv/dist/2020.js");
+        return module.default;
+    } catch {
+        console.error("Could not load ajv. Run `npm install` in the repo root first.");
+        process.exit(1);
+    }
+}
+
+function loadJsonFile(filePath, label) {
+    try {
+        return JSON.parse(fs.readFileSync(filePath, "utf8"));
+    } catch (error) {
+        throw new Error(`Could not load ${label} ${displayPath(filePath)}: ${error.message}`);
+    }
+}
+
 async function main() {
     const args = parseArgs(process.argv.slice(2));
 
@@ -326,15 +357,9 @@ async function main() {
         process.exit(args.help ? 0 : 1);
     }
 
-    let Ajv2020;
-    try {
-        ({ default: Ajv2020 } = await import("ajv/dist/2020.js"));
-    } catch (error) {
-        console.error("Could not load ajv. Run `npm install` in the repo root first.");
-        process.exit(1);
-    }
+    const Ajv2020 = await loadAjv2020();
+    const schema = loadJsonFile(args.schemaPath, "schema");
 
-    const schema = JSON.parse(fs.readFileSync(args.schemaPath, "utf8"));
     const ajv = new Ajv2020({
         strict: false,
         allErrors: true,
@@ -344,7 +369,6 @@ async function main() {
 
     ajv.addSchema(schema);
     const validate = ajv.getSchema(args.entryId);
-
     if (!validate) {
         throw new Error(`Schema entrypoint not found: ${args.entryId}`);
     }
@@ -355,38 +379,23 @@ async function main() {
     for (const dataPath of args.dataPaths) {
         let data;
         try {
-            data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+            data = loadJsonFile(dataPath, "JSON file");
         } catch (error) {
-            results.push({
-                file: path.relative(cwd, dataPath),
-                valid: false,
-                parse_error: String(error),
-                missing_required: [],
-                type_errors: [],
-                enum_errors: [],
-                unknown_fields: [],
-                constraint_errors: [],
-                composition_errors: [],
-                consistency_checks: [],
-                other_errors: [],
-                raw_errors: []
-            });
+            const report = createEmptyReport(dataPath);
+            report.parse_error = error.message.replace(/^Could not load JSON file [^:]+: /, "");
+            results.push(report);
             hasFailures = true;
             continue;
         }
 
-        const ok = validate(data);
-        const report = buildReport(dataPath, data, validate.errors || []);
-        report.valid = ok;
-        results.push(report);
-
-        if (!ok) {
+        const valid = validate(data);
+        results.push(buildReport(dataPath, data, validate.errors || []));
+        if (!valid) {
             hasFailures = true;
         }
     }
 
-    const output = results.length === 1 ? results[0] : { results };
-    console.log(JSON.stringify(output, null, 2));
+    console.log(JSON.stringify(results.length === 1 ? results[0] : { results }, null, 2));
     process.exit(hasFailures ? 1 : 0);
 }
 
