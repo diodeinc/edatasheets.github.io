@@ -1,22 +1,21 @@
 {
     "componentID": {
         "partType": "pmic",
-        "manufacturer": "texas instruments",
+        "manufacturer": "Texas Instruments",
         "componentName": "TPS6521905",
         "orderableMPN": [
-            "TPS6521905"
+            "TPS6521905RSMR",
+            "TPS6521905RHBR"
         ],
         "sourceDatasheetID": {
-            "publishedDate": "2024-01-01",
-            "version": "example",
-            "datasheetURI": "https://www.ti.com/",
-            "productURI": "https://www.ti.com/"
+            "publishedDate": "2024-06-05",
+            "version": "Rev. A",
+            "datasheetURI": "https://www.ti.com/lit/gpn/tps6521905",
+            "productURI": "https://www.ti.com/product/TPS6521905"
         },
         "digitalDatasheetID": {
-            "publishedDate": "2026-03-08",
             "eDatasheetSpecRevision": "1.0"
-        },
-        "status": "production"
+        }
     },
     "coreProperties": {
         "partType": "pmic"
