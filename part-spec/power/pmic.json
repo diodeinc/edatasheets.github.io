@@ -4,7 +4,9 @@
     "title": "specification of a pmic",
     "pmic": {
         "type": "object",
-        "required": "partType",
+        "required": [
+            "partType"
+        ],
         "properties": {
             "partType": {
                 "description": "part type",

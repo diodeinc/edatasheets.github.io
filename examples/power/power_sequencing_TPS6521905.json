@@ -1,5 +1,27 @@
 {
-    "values": [
+    "componentID": {
+        "partType": "pmic",
+        "manufacturer": "texas instruments",
+        "componentName": "TPS6521905",
+        "orderableMPN": [
+            "TPS6521905"
+        ],
+        "sourceDatasheetID": {
+            "publishedDate": "2024-01-01",
+            "version": "example",
+            "datasheetURI": "https://www.ti.com/",
+            "productURI": "https://www.ti.com/"
+        },
+        "digitalDatasheetID": {
+            "publishedDate": "2026-03-08",
+            "eDatasheetSpecRevision": "1.0"
+        },
+        "status": "production"
+    },
+    "coreProperties": {
+        "partType": "pmic"
+    },
+    "powerSequence": [
         {
             "powerTransitionName": "tEEPROM_LOAD",
             "powerTransitionDescription": "VSYS rising on On-Request",

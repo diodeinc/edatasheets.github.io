@@ -84,7 +84,7 @@
                 }
             ]
         },
-        "meantTimeToFail": {
+        "meanTimeToFail": {
             "values": [
                 {
                     "typValue": 5000000,
