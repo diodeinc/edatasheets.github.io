@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/passives/resistor.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of resistor",
     "resistor": {
         "type": "object",
@@ -18,42 +18,42 @@
             },
             "value": {
                 "description": "resistance value",
-                "comment": "units of ohms",
+                "$comment": "units of ohms",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "tolerance": {
                 "description": "nominal tolerance of a resistor",
-                "comment": "units of percentage",
+                "$comment": "units of percentage",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "powerRating": {
                 "description": "measure of power a resistor can dissipate indefinitely without degrading performance",
-                "comment": "units of watts",
+                "$comment": "units of watts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "temperatureCoefficient": {
                 "description": "change in resistance when the temperature is changed",
-                "comment": "units of ohms/degree (Celsius or Kelvin)",
+                "$comment": "units of ohms/degree (Celsius or Kelvin)",
                 "type": "number"
             },
             "maxOverloadVoltage": {
                 "description": "maximum voltage that can be applied to the resistor for a short period of time",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "maxLimitingElementVoltage": {
                 "description": "maximum voltage value that can be applied continuously to the resistor",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "minTemperature": {
                 "description": "minimum temperature under which a resistor can be expected to reliably operate",
-                "comment": "units of degrees (Celsius or Kelvin)",
+                "$comment": "units of degrees (Celsius or Kelvin)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "maxTemperature": {
                 "description": "maximum temperature under which a resistor can be expected to reliably operate",
-                "comment": "units of degrees (Celsius or Kelvin)",
+                "$comment": "units of degrees (Celsius or Kelvin)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "resistorDerating": {

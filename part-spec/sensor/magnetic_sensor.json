@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/sensor/magnetic_sensor.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of magnetic sensor",
     "magnetic_sensor": {
         "type": "object",
@@ -33,32 +33,32 @@
             },
             "quiescentOutput": {
                 "description": "output of the magnetic sensor when no magnet is present",
-                "comment": "units of volts(v)",
+                "$comment": "units of volts(v)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "outputVoltageLinearRange": {
                 "description": "output voltage range over which the magnetic flux density response is linear",
-                "comment": "lower value of the range captured by min value and top value of the range captured by max value (V) ",
+                "$comment": "lower value of the range captured by min value and top value of the range captured by max value (V) ",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "linearMagneticSensingRange": {
                 "description": "magnetic flux density range over which the output voltage is linear ",
-                "comment": "units of mT",
+                "$comment": "units of mT",
                 "type": "number"
             },
             "sensitivity": {
                 "description": "this is the gain - amount of change in the output voltage for a change in the magnetic flux density",
-                "comment": "units of mV/mT",
+                "$comment": "units of mV/mT",
                 "type": "number"
             },
             "operatePoint": {
                 "description": "magnetic flux density threshold which causes the sensor output to turn on",
-                "comment": "units of mT. Depending on the sensor's design, the operation point can cause the output to trip High or Low.",
+                "$comment": "units of mT. Depending on the sensor's design, the operation point can cause the output to trip High or Low.",
                 "type": "number"
             },
             "releasePoint": {
                 "description": "magnetic flux density threshold which causes the sensor output to turn off",
-                "comment": "units of mT. Depending on the sensor's design, the release point can cause the output to trip High or Low.",
+                "$comment": "units of mT. Depending on the sensor's design, the release point can cause the output to trip High or Low.",
                 "type": "number"
             },
             "outputPolarity": {
@@ -71,12 +71,12 @@
             },
             "hysteresis": {
                 "description": "delta between the operate point and the release point threshold",
-                "comment": "units of mT",
+                "$comment": "units of mT",
                 "type": "number"
             },
             "bandwidth": {
                 "description": "sensing bandwidth",
-                "comment": "units of Hertz (Hz)",
+                "$comment": "units of Hertz (Hz)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentConsumption": {

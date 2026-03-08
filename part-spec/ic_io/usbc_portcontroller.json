@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/ic_io/usbc_portcontroller.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of usb-c port controller",
     "usbc_portcontroller": {
         "type": "object",
@@ -59,22 +59,22 @@
             },
             "vconnFetOnResistance": {
                 "description": "on-resistance of the integrated Vconn FET",
-                "comment": "units of ohms",
+                "$comment": "units of ohms",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vconnPowerLimit": {
                 "description": "power limit supported by internal vconn switch (if supported)",
-                "comment": "units of watts",
+                "$comment": "units of watts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vconnMaxCurrent": {
                 "description": "maximum continuous current supported by internal vconn switch (if supported)",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vconnOverCurrentLimit": {
                 "description": "over current limit supported by internal vconn switch (if supported)",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "integratedVbusDischargeSwitch": {

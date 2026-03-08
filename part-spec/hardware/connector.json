@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/hardware/connector.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of connector",
     "connector": {
         "type": "object",
@@ -47,7 +47,7 @@
             },
             "pitch": {
                 "description": "distance from the center of one contact on the connector to the center of the next contact",
-                "comment": "units of mm",
+                "$comment": "units of mm",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "keying": {

@@ -1,23 +1,23 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/common/componentProtectionThresholds.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification to capture protection thresholds data of a component",
     "componentProtectionThresholds": {
         "type": "object",
         "properties": {
             "thermalShutdownThresholdRising": {
                 "description": "thermal Shutdown (tsd) Threshold with temperature rising",
-                "comment": "units of celsius",
+                "$comment": "units of celsius",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "thermalShutdownThresholdFalling": {
                 "description": "thermal Shutdown (tsd) Threshold with temperature falling",
-                "comment": "units of celsius",
+                "$comment": "units of celsius",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "thermalShutdownHysteresis": {
                 "description": "thermal Shutdown (tsd) Hysteresis",
-                "comment": "units of celsius",
+                "$comment": "units of celsius",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "powerSupplyProtection": {
@@ -40,32 +40,32 @@
                 },
                 "overVoltageProtectionThresholdRising": {
                     "description": "Overvoltage Protection (OVP) Threshold with power supply rising",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "overVoltageProtectionThresholdFalling": {
                     "description": "Overvoltage Protection (OVP) Threshold with power supply falling",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "overVoltageProtectionHysteresis": {
                     "description": "Overvoltage Protection (OVP) Hysteresis",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "underVoltageLockoutThresholdRising": {
                     "description": "Undervoltage Lockout (UVLO) Threshold with power supply rising",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "underVoltageLockoutThresholdFalling": {
                     "description": "Undervoltage Lockout (UVLO) Threshold with power supply falling",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "underVoltageLockoutHysteresis": {
                     "description": "Undervoltage Lockout (UVLO) Hysteresis",
-                    "comment": "units of volts",
+                    "$comment": "units of volts",
                     "$ref": "../common/values.json#/valueOptions"
                 }
             }

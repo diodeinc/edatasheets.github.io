@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/common/register.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of a register",
     "register": {
         "type": "object",
@@ -24,7 +24,7 @@
             },
             "registerSize": {
                 "description": "size of a register",
-                "comment": "units of byte",
+                "$comment": "units of byte",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "registerType": {
@@ -53,7 +53,7 @@
             },
             "registerIpName": {
                 "description": "name of the IP or interface controlled by changes in the register",
-                "example": [
+                "examples": [
                     "GPIO",
                     "timers",
                     "ADC",
@@ -105,7 +105,7 @@
                 "bitFieldNumber": {
                     "description": "Number of a bitfield",
                     "type": "number",
-                    "comment": "LSB is number 0"
+                    "$comment": "LSB is number 0"
                 },
                 "bitFieldRange": {
                     "description": "Range of the bit field",

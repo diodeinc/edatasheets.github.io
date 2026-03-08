@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/memory/eeprom.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of eeprom",
     "eeprom": {
         "type": "object",
@@ -18,7 +18,7 @@
             },
             "accessTime": {
                 "$ref": "../common/values.json#/valueOptions",
-                "comment": "units of seconds (s)",
+                "$comment": "units of seconds (s)",
                 "description": "time to access the eeprom"
             },
             "bitsPerWords": {
@@ -27,17 +27,17 @@
             },
             "bootBlockSize": {
                 "$ref": "../common/values.json#/valueOptions",
-                "comment": "units of bits",
+                "$comment": "units of bits",
                 "description": "size of the eeprom boot block"
             },
             "capacity": {
                 "$ref": "../common/values.json#/valueOptions",
-                "comment": "units of bits",
+                "$comment": "units of bits",
                 "description": "capacity/density of eeprom"
             },
             "clockFrequency": {
                 "$ref": "../common/values.json#/valueOptions",
-                "comment": "units of Hertz (Hz)",
+                "$comment": "units of Hertz (Hz)",
                 "description": "eeprom clock frequency"
             },
             "currentConsumption": {

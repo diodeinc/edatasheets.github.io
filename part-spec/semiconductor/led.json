@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/semiconductor/led.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of LED",
     "led": {
         "type": "object",
@@ -26,27 +26,27 @@
             },
             "vf": {
                 "description": "forward voltage of an LED ",
-                "comment": "conditions include: forward current of LED under which a given forward voltage was measured",
+                "$comment": "conditions include: forward current of LED under which a given forward voltage was measured",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "if": {
                 "description": "continuous forward current of an LED",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ifp": {
                 "description": "peak forward current of an LED",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vr": {
                 "description": "maximum continuous reverse biased voltage an LED can support",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ir": {
                 "description": "reverse current (leakage) of an LED",
-                "comment": "conditions include: reverse biased voltage under which LED ir was measured",
+                "$comment": "conditions include: reverse biased voltage under which LED ir was measured",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ledCapacitance": {

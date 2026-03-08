@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/ic_misc/audio_codec.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of audio codec",
     "audio_codec": {
         "type": "object",
@@ -21,22 +21,22 @@
             },
             "hpOutputSNR": {
                 "description": "headphone amplifier output SNR",
-                "comment": "units of dB",
+                "$comment": "units of dB",
                 "type": "number"
             },
             "hpOutputTHD+N": {
                 "description": "headphone output total harmonic distortion plus noise",
-                "comment": "units of percentage",
+                "$comment": "units of percentage",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "micInputSNR": {
                 "description": "microphone input SNR",
-                "comment": "units of dB",
+                "$comment": "units of dB",
                 "type": "number"
             },
             "micInputTHD+N": {
                 "description": "microphone input total harmonic distortion plus noise",
-                "comment": "units of percentage",
+                "$comment": "units of percentage",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "jackDetect": {

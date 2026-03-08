@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/passives/common_mode_choke.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of common mode choke",
     "common_mode_choke": {
         "type": "object",
@@ -17,7 +17,7 @@
             },
             "diffModeCutoff": {
                 "description": "frequency at which the differential mode attenuation equals -3dB",
-                "comment": "units of Hz",
+                "$comment": "units of Hz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "commonModeAttenuation": {
@@ -26,12 +26,12 @@
             },
             "dcResistance": {
                 "description": "dc resistance (DCR) of a common mode choke",
-                "comment": "units of ohms",
+                "$comment": "units of ohms",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "rmsCurrent": {
                 "description": "applied DC current (IRMS) that produces a common mode choke temperature rise of 40 deg C",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "intendedApplication": {

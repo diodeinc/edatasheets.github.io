@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/hardware/switch.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of switch",
     "switch": {
         "type": "object",
@@ -51,22 +51,22 @@
             },
             "voltageRating": {
                 "description": "maximum DC voltage potential that can be applied across an open switch",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentRating": {
                 "description": "maximum DC current that can flow through a closed switch without causing excessive heating",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "onResistance": {
                 "description": "nominal resistance of a closed switch",
-                "comment": "units of ohms",
+                "$comment": "units of ohms",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dielectricRating": {
                 "description": "maximum AC voltage potential that can be applied across an open switch for one minute",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             }
         },

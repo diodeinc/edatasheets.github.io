@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/logic/logic_gate.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of logic gate",
     "logic_gate": {
         "type": "object",
@@ -41,12 +41,12 @@
             },
             "propagationDelay": {
                 "description": "time between input changing to output changing",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "rampTime": {
                 "description": "time for output to go from 10% nominal output voltage to 90% nominal output voltage",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentConsumption": {

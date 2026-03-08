@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/ic_io/redriver.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of redriver",
     "redriver": {
         "type": "object",
@@ -33,7 +33,7 @@
             },
             "maxDataRate": {
                 "description": "maximum data rate supported by redriver",
-                "comment": "units of Hz",
+                "$comment": "units of Hz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentConsumption": {

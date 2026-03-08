@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/semiconductor/mosfet.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of mosfet",
     "mosfet": {
         "type": "object",
@@ -40,52 +40,52 @@
             },
             "vgs": {
                 "description": "gate to source voltage difference of a MOSFET",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vgsMax": {
                 "description": "maximum gate to source voltage difference that can be continuously applied to a MOSFET. This is a limiting value",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vds": {
                 "description": "drain to source voltage difference of a MOSFET",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vdsMax": {
                 "description": "maximum drain to source voltage difference that can be continuously applied to a MOSFET. This is a limiting value",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vdsVbr": {
                 "description": "drain to source breakdown voltage of a MOSFET",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vgsTh": {
                 "description": "gate to source voltage difference required to produce a conducting path between drain and source",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vsdDiodeVf": {
                 "description": "reverse diode forward voltage when a MOSFET is in off-state",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "iD": {
                 "description": "drain Current of a MOSFET",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "iDrain": {
                 "description": "maximum continuous DC current that can flow through a MOSFET channel.This is a limiting value",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "idPulsed": {
                 "description": "maximum pulsed DC current that can flow through a MOSFET channel.This is a limiting value",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "iDss": {
@@ -100,12 +100,12 @@
             },
             "diodeContinuousCurrent": {
                 "description": "maximum continuous forward current of the body diode of a MOSFET (IS).This is a limiting value",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "diodePulsedCurrent": {
                 "description": "maximum pulsed forward current of the body diode of a MOSFET. This is a limiting value",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "forwardTransconductance": {

@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/power/displaybacklight_driver.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of display backlight driver",
     "displaybacklight_driver": {
         "type": "object",
@@ -19,27 +19,27 @@
             },
             "vin": {
                 "description": "input voltage under which a device can be expected to operate properly",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "vout": {
                 "description": "output voltage range a device can regulate",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ioutPerString": {
                 "description": "output current per string a device can regulate",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ioutAccuracy": {
                 "description": "accuracy of per string current regulated by a device",
-                "comment": "units of percentage",
+                "$comment": "units of percentage",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "fsw": {
                 "description": "switching frequency of a device",
-                "comment": "units of hertz",
+                "$comment": "units of hertz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentConsumption": {
@@ -59,7 +59,7 @@
             },
             "currentMatchingAccuracy": {
                 "description": "current matching between LED strings",
-                "comment": "units of percentage",
+                "$comment": "units of percentage",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dimmingSupport": {
@@ -76,7 +76,7 @@
             },
             "dimmingFrequency": {
                 "description": "dimming frequency of a device",
-                "comment": "units of hertz",
+                "$comment": "units of hertz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dimmingRatio": {

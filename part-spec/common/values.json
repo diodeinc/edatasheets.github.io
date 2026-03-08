@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/common/values.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of value",
     "valueOptions": {
         "type": "object",
@@ -74,7 +74,7 @@
                         "bit",
                         "byte",
                         "celsius/watt",
-                        "kelvin/watt"             
+                        "kelvin/watt"
                     ],
                     "type": "string"
                 },
@@ -101,17 +101,23 @@
                 },
                 "relativeValueReference": {
                     "description": "if unit quantity is based on another reference, value of the reference",
-                    "example": "VDD1",
+                    "examples": [
+                        "VDD1"
+                    ],
                     "type": "string"
                 },
                 "relativeValueModifier": {
                     "description": "if a unit quantity is based on another reference, the value that edits that reference",
-                    "example": "1.2",
+                    "examples": [
+                        "1.2"
+                    ],
                     "type": "number"
                 },
                 "relativeValueOperator": {
                     "description": "if a unit quantity is based on another reference, the operation that is performed with the modifier",
-                    "example": "multiply",
+                    "examples": [
+                        "multiply"
+                    ],
                     "type": "string",
                     "enum": [
                         "multiply",

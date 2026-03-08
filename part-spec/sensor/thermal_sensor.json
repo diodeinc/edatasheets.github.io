@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/sensor/thermal_sensor.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of thermal sensor",
     "thermal_sensor": {
         "type": "object",
@@ -46,22 +46,22 @@
             },
             "accuracy": {
                 "description": "accuracy of temperature sensor",
-                "comment": "units of degrees C",
+                "$comment": "units of degrees C",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "temperatureRange": {
                 "description": "range of temperature sensor",
-                "comment": "units of degrees C",
+                "$comment": "units of degrees C",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "resolution": {
                 "description": "maximum resolution of temperature sensor",
-                "comment": "units of degreesC/LSD",
+                "$comment": "units of degreesC/LSD",
                 "type": "number"
             },
             "gain": {
                 "description": "amount of change in the output voltage for a change in temperature",
-                "comment": "units of mV/degrees C",
+                "$comment": "units of mV/degrees C",
                 "type": "number"
             },
             "currentConsumption": {

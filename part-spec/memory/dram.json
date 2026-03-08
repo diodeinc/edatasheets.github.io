@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/memory/dram.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of dram",
     "dram": {
         "type": "object",
@@ -31,7 +31,7 @@
             },
             "capacity": {
                 "description": "capacity of dram chip",
-                "comment": "units of bytes (B)",
+                "$comment": "units of bytes (B)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ranksperModule": {
@@ -52,17 +52,17 @@
             },
             "bitsPerChannel": {
                 "description": "channel density of dram",
-                "comment": "units of bits (b)",
+                "$comment": "units of bits (b)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "bitsPerDie": {
                 "description": "total die density of dram",
-                "comment": "units of bits (b)",
+                "$comment": "units of bits (b)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "pageSize": {
                 "description": "page size of dram",
-                "comment": "units of bytes (B)",
+                "$comment": "units of bytes (B)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "rows": {
@@ -75,32 +75,32 @@
             },
             "dataRate": {
                 "description": "dram maximum data rate",
-                "comment": "units of mega transfers per second (MT/s)",
+                "$comment": "units of mega transfers per second (MT/s)",
                 "type": "number"
             },
             "speed": {
                 "description": "dram maximum speed",
-                "comment": "units of Hertz(Hz)",
+                "$comment": "units of Hertz(Hz)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "latencyCas": {
                 "description": "cl/tCAS, delay between read command issued and first output data available for read",
-                "comment": "delay specified by number of clock cycles",
+                "$comment": "delay specified by number of clock cycles",
                 "type": "number"
             },
             "delayRasCas": {
                 "description": "tRCD,delay between activation of row and activation of column where data is stored in the dram",
-                "comment": "units of ns",
+                "$comment": "units of ns",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "delayRasPrecharge": {
                 "description": "tRP, delay between closing access to a row through the precharge command and activating a new row to access data ",
-                "comment": "units of ns",
+                "$comment": "units of ns",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "delayActivePrecharge": {
                 "description": "tRAS, delay between row active command issued and precharge command issued ",
-                "comment": "units of ns",
+                "$comment": "units of ns",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "currentConsumption": {

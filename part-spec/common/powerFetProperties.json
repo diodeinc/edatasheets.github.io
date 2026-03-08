@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/common/powerFetProperties.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of power fets properties",
     "powerFetProperties": {
         "type": "object",
@@ -26,22 +26,22 @@
             "properties": {
                 "ilimHSFET": {
                     "description": "maximum sustained output current under which the high side FET will operate properly",
-                    "comment": "units of amps",
+                    "$comment": "units of amps",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "ilimLSFET": {
                     "description": "maximum sustained output current under which the low side FET will operate properly",
-                    "comment": "units of amps",
+                    "$comment": "units of amps",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "rdsonHSFET": {
                     "description": "high side FET on-resistance",
-                    "comment": "units of ohms",
+                    "$comment": "units of ohms",
                     "$ref": "../common/values.json#/valueOptions"
                 },
                 "rdsonLSFET": {
                     "description": "low side FET on-resistance",
-                    "comment": "units of ohms",
+                    "$comment": "units of ohms",
                     "$ref": "../common/values.json#/valueOptions"
                 }
             },

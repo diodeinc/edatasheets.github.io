@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/ic_misc/speaker_amplifier.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of speaker amplifier",
     "speaker_amplifier": {
         "type": "object",
@@ -21,22 +21,22 @@
             },
             "outputPower": {
                 "description": "typical output power from speaker amplifier",
-                "comment": "conditions include: voltage and load conditions under which output power is measured",
+                "$comment": "conditions include: voltage and load conditions under which output power is measured",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "efficiency": {
                 "description": "typical speaker amplifier efficiency",
-                "comment": "conditions include: load and THD+N conditions under which efficiency is measured",
+                "$comment": "conditions include: load and THD+N conditions under which efficiency is measured",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "thd+n": {
                 "description": "typical total harmonic distortion plus noise of amplifier",
-                "comment": "conditions include: frequency, power, and load conditions under which thd+n is measured",
+                "$comment": "conditions include: frequency, power, and load conditions under which thd+n is measured",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "sampleRate": {
                 "description": "sample rate of data out of amplifier",
-                "comment": "units of Hz",
+                "$comment": "units of Hz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "interface": {

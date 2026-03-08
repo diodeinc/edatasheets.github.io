@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/data_converter/adc.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of adc",
     "adc": {
         "type": "object",
@@ -21,7 +21,7 @@
             },
             "conversionTime": {
                 "description": "time required to convert from an analog signal to digital output",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "sampleRate": {
@@ -31,32 +31,32 @@
             },
             "offsetError": {
                 "description": "difference (in LSB) of the output at the zero point between an actual and ideal ADC",
-                "comment": "units of LSB",
+                "$comment": "units of LSB",
                 "type": "number"
             },
             "gainError": {
                 "description": "difference (in LSB) of how the actual transfer function matches the ideal transfer function, also called full scale error",
-                "comment": "units of LSB",
+                "$comment": "units of LSB",
                 "type": "number"
             },
             "integralNonlinearity": {
                 "description": "deviation (in LSB) of an actual transfer function from an ideal transfer function",
-                "comment": "units of LSB",
+                "$comment": "units of LSB",
                 "type": "number"
             },
             "differentialNonlinearity": {
                 "description": "difference (in LSB) in step width between the actual and ideal transfer functions",
-                "comment": "units of LSB",
+                "$comment": "units of LSB",
                 "type": "number"
             },
             "rmsNoise": {
                 "description": "root mean square (RMS) noise of ADC",
-                "comment": "units of LSB",
+                "$comment": "units of LSB",
                 "type": "number"
             },
             "SNR": {
                 "description": "signal to noise (SNR) ratio of the converter",
-                "comment": "units of dB",
+                "$comment": "units of dB",
                 "type": "number"
             },
             "interface": {

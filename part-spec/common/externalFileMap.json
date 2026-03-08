@@ -1,18 +1,22 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/common/externalFileMap.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification for referencing an external file for different components",
     "externalFileMap": {
         "type": "object",
         "properties": {
             "coreProperties": {
                 "description": "core component properties as defined by the specific component spec file. These properties are described by the common part of the part number",
-                "example": "this might include everything about an MCU other than flash size",
+                "examples": [
+                    "this might include everything about an MCU other than flash size"
+                ],
                 "$ref": "../common/externalFile.json#/externalFile"
             },
             "additionalCoreProperties": {
                 "description": "core component properties as defined by the specific component spec file. These properties are described by the changing part of the part number",
-                "example": "this might include the MCU flash size",
+                "examples": [
+                    "this might include the MCU flash size"
+                ],
                 "$ref": "../common/externalFile.json#/externalFile"
             },
             "pins": {

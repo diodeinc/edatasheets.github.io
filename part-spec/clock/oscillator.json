@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/clock/oscillator.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of oscillator",
     "oscillator": {
         "type": "object",
@@ -37,37 +37,37 @@
             },
             "currentConsumption": {
                 "description": "current consumption of a device",
-                "comment": "units of amps",
+                "$comment": "units of amps",
                 "$ref": "../common/currentConsumption.json#/currentConsumption"
             },
             "outputLoad": {
                 "description": "maximum capacitive load that can be supported by oscillator",
-                "comment": "units of farads",
+                "$comment": "units of farads",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "riseTime": {
                 "description": "time for output to go from 10% to 90% of output max",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "fallTime": {
                 "description": "time for output to go from 90% to 10% of output max",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "startUpTime": {
                 "description": "time between enable and output reaching 10% of output max",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dutyCycle": {
                 "description": "time above 50% of output max over entire period",
-                "comment": "units of percent",
+                "$comment": "units of percent",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "phaseJitter": {
                 "description": "variation of waveform period",
-                "comment": "units of seconds",
+                "$comment": "units of seconds",
                 "$ref": "../common/values.json#/valueOptions"
             }
         },

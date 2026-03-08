@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/passives/capacitor.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of capacitor",
     "capacitor": {
         "type": "object",
@@ -18,17 +18,17 @@
             },
             "value": {
                 "description": "capacitor value",
-                "comment": "units of farads",
+                "$comment": "units of farads",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "tolerance": {
                 "description": "nominal tolerance of a capacitor",
-                "comment": "units of %",
+                "$comment": "units of %",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "ratedVoltage": {
                 "description": "maximum voltage which may be applied continuously to a capacitance",
-                "comment": "units of volts",
+                "$comment": "units of volts",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dielectric": {
@@ -46,22 +46,22 @@
             },
             "equivalentSeriesResistance": {
                 "description": "equivalent series resistance (ESR) of the capacitor",
-                "comment": "units of ohms",
+                "$comment": "units of ohms",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "temperatureCoefficient": {
                 "description": "change in capacitance when the temperature is changed",
-                "comment": "units of farads/degree (Celsius or Kelvin)",
+                "$comment": "units of farads/degree (Celsius or Kelvin)",
                 "type": "number"
             },
             "minTemperature": {
                 "description": "minimum temperature under which a capacitor can be expected to reliably operate",
-                "comment": "units of degrees (Celsius or Kelvin)",
+                "$comment": "units of degrees (Celsius or Kelvin)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "maxTemperature": {
                 "description": "maximum temperature under which a capacitor can be expected to reliably operate",
-                "comment": "units of degrees (Celsius or Kelvin)",
+                "$comment": "units of degrees (Celsius or Kelvin)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "capacitorDerating": {

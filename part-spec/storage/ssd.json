@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/storage/ssd.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of ssd",
     "ssd": {
         "type": "object",
@@ -26,12 +26,12 @@
             },
             "capacity": {
                 "description": "capacity of the ssd",
-                "comment": "units of bytes (B)",
+                "$comment": "units of bytes (B)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "dataRate": {
                 "description": "maximum data rate of the ssd",
-                "comment": "units of bytes per second (Bps)",
+                "$comment": "units of bytes per second (Bps)",
                 "type": "number"
             },
             "interface": {

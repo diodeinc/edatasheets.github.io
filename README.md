@@ -16,7 +16,7 @@ This document is designed for EDS producers, such as component vendors, and for 
 
 #### 1.4 References
 - The JSON data interchange syntax, [ECMA-404, 2nd edition, December 2017](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/)
-- JSON Schema: A media Type for Describing JSON Documents, [draft-bhutton-json-schema-00, December 2020](https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-00).
+- JSON Schema, [Draft 2020-12](https://json-schema.org/draft/2020-12)
 - Terms, Definitions, and Letter Symbols for Microelectronic Devices, JESD99C – December 2012
 
 ### 2. Working with Electronic Datasheets 
@@ -81,7 +81,7 @@ Source: [component.json](https://github.com/edatasheets/digital-datasheets/blob/
 |componentPropertyExternalFiles|external files that describe key component properties. External files can be used in lieu of defining core properties, pins, and package information in the same file|./common/externalFileMap.json#/externalFileMap|No|
 |additionalSpecExternalFiles|external files that contain information outside of the json spec. Examples include layout, simulation, etc.|./common/externalFile.json#/externalFile|No|
 |reliability|reliability information about the component|./common/reliability.json#/reliability|No|
-|powerSequence|information about component power sequencing|./common/powerSequence.json#/powerSequenceTable|No|
+|powerSequence|information about component power sequencing|./common/powerSequence.json#/powerSequence|No|
 ### 4.5	 Common
 
 ####  4.5.1	 Specification To Capture Information To Identify Components
@@ -1344,4 +1344,3 @@ Source: [undefined_ic.json](https://github.com/edatasheets/edatasheets.github.io
 |Property|Description|JSON Data Type|Required?|
 |:----|:----|:----|:----|
 |currentConsumption|current used by device in various power modes|array of ../common/currentConsumption.json#/currentConsumption| |
-

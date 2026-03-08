@@ -1,6 +1,6 @@
 {
     "$id": "https://github.com/edatasheets/edatasheets.github.io/blob/main/part-spec/sensor/accelerometer.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "specification of accelerometer",
     "accelerometer": {
         "type": "object",
@@ -37,7 +37,7 @@
                         8
                     ]
                 ],
-                "comment": "units of g",
+                "$comment": "units of g",
                 "type": "array",
                 "items": {
                     "type": "number"
@@ -51,12 +51,12 @@
                     "4000",
                     "2000"
                 ],
-                "comment": "units of LSB/g (least significant bits per g) at a given acceleration range and output resolution",
+                "$comment": "units of LSB/g (least significant bits per g) at a given acceleration range and output resolution",
                 "type": "number"
             },
             "accelerationSensitivityOverTemperature": {
                 "description": "accelerometer sensitivity change over temperature",
-                "comment": "units of percentage per degree celsius (%/Celsius)",
+                "$comment": "units of percentage per degree celsius (%/Celsius)",
                 "type": "number"
             },
             "axis": {
@@ -65,12 +65,12 @@
             },
             "zerogOffset": {
                 "description": "output of the accelerometer when no acceleration is applied",
-                "comment": "units of g-force (g)",
+                "$comment": "units of g-force (g)",
                 "type": "number"
             },
             "zerogOffsetOverTemperature": {
                 "description": "accelerometer zero-g offset change over temperature",
-                "comment": "units of milli g-force per degree celsius (mg/Celsius)",
+                "$comment": "units of milli g-force per degree celsius (mg/Celsius)",
                 "type": "number"
             },
             "outputType": {
@@ -83,7 +83,7 @@
             },
             "outputResolution": {
                 "description": "output resolution of acceleration measurement",
-                "comment": "units of bits",
+                "$comment": "units of bits",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "interface": {
@@ -100,22 +100,22 @@
             },
             "bandwidth": {
                 "description": "bandwidth of acceleration measurement",
-                "comment": "units of hertz (Hz)",
+                "$comment": "units of hertz (Hz)",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "outputDataRate": {
                 "description": "output Data rate (ODR) of a device",
-                "comment": "units of Hz",
+                "$comment": "units of Hz",
                 "$ref": "../common/values.json#/valueOptions"
             },
             "rmsNoise": {
                 "description": "broadband rms noise of a device",
-                "comment": "units of milli g-force",
+                "$comment": "units of milli g-force",
                 "type": "number"
             },
             "spectralNoiseDensity": {
                 "description": "spectral noise density of a device",
-                "comment": "units of milli g-force per square root of Hz (milli-g/rt-Hz)",
+                "$comment": "units of milli g-force per square root of Hz (milli-g/rt-Hz)",
                 "type": "number"
             },
             "currentConsumption": {
