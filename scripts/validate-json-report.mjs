@@ -336,7 +336,7 @@ async function loadAjv2020() {
         const module = await import("ajv/dist/2020.js");
         return module.default;
     } catch {
-        console.error("Could not load ajv. Run `npm install` in the repo root first.");
+        console.error("Could not load ajv. Run `pnpm install` in the repo root first.");
         process.exit(1);
     }
 }

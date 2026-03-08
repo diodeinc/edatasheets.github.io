@@ -2,6 +2,7 @@
     "name": "edatasheets-tools",
     "private": true,
     "type": "module",
+    "packageManager": "pnpm@10.17.1",
     "scripts": {
         "build:compound-schema": "node scripts/build-compound-schema.mjs",
         "validate:json-report": "node scripts/validate-json-report.mjs"
