@@ -1,12 +1,40 @@
 {
-    "name": "edatasheets-tools",
-    "private": true,
+    "name": "edatasheet-cli",
+    "version": "0.1.0",
+    "description": "CLI for validating and inspecting Electronic Datasheet (EDS) JSON documents.",
+    "license": "Apache-2.0",
     "type": "module",
     "packageManager": "pnpm@10.17.1",
+    "bin": {
+        "edatasheet": "./bin/edatasheet.mjs"
+    },
+    "files": [
+        "bin",
+        "generated",
+        "src",
+        "LICENSE",
+        "README.md"
+    ],
     "scripts": {
+        "edatasheet": "node bin/edatasheet.mjs",
         "build:compound-schema": "node scripts/build-compound-schema.mjs",
         "validate:json-report": "node scripts/validate-json-report.mjs"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/edatasheets/edatasheets.github.io.git"
+    },
+    "homepage": "https://github.com/edatasheets/edatasheets.github.io",
+    "bugs": {
+        "url": "https://github.com/edatasheets/edatasheets.github.io/issues"
+    },
+    "keywords": [
+        "json-schema",
+        "electronics",
+        "datasheet",
+        "hardware",
+        "cli"
+    ],
     "dependencies": {
         "ajv": "^8.17.1"
     }

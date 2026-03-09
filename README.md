@@ -2,6 +2,24 @@
 ### 1 Introduction 
 As the demand for hardware design automation tools grows, the need for machine-readable datasheets becomes more critical. Establishing a standardized Electronic Datasheet (EDS) specification alleviates the burden on component vendors to produce multiple datasheets for various tools, promoting the reuse of tools across different designs.
 
+### CLI
+This repository now includes an `edatasheet` CLI that ships with the bundled 2020-12 compound schema and validates EDS JSON locally.
+
+#### Install
+```bash
+pnpm install
+```
+
+#### Common Commands
+```bash
+node bin/edatasheet.mjs version
+node bin/edatasheet.mjs schema --pretty > component.compound.schema.json
+node bin/edatasheet.mjs validate examples/ic_microcontroller/STM32F302R6T6TR.json
+node bin/edatasheet.mjs lint examples/ic_microcontroller/STM32F302R6T6TR.json
+```
+
+The published npm package exposes the same commands through the `edatasheet` binary.
+
 #### 1.1 Objectives
 Component manufacturers produce datasheets to document various details about their components, such as performance, electrical characteristics, size, orientation, and packaging. EDS provide this information in a machine-readable format. The goal of this specification is to establish a standardized, machine-readable format for representing component datasheets.
 
