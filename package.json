@@ -1,6 +1,6 @@
 {
     "name": "@diodeinc/edatasheet",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Dual-purpose CLI and JavaScript library for validating Electronic Datasheet (EDS) JSON documents.",
     "license": "Apache-2.0",
     "type": "module",
