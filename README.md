@@ -1,6 +1,6 @@
-# edatasheet-cli
+# @diodeinc/edatasheet
 
-`edatasheet-cli` is a dual-purpose npm package:
+`@diodeinc/edatasheet` is a dual-purpose npm package:
 
 - a CLI for validating Electronic Datasheet (EDS) JSON documents
 - a small JavaScript library that exposes the same bundled schema and validation logic
@@ -29,13 +29,13 @@ Anything else in the package should be treated as internal.
 
 ### CLI install
 ```bash
-pnpm add -g edatasheet-cli
+pnpm add -g @diodeinc/edatasheet
 edatasheet version
 ```
 
 ### Library install
 ```bash
-pnpm add edatasheet-cli
+pnpm add @diodeinc/edatasheet
 ```
 
 ## CLI
@@ -122,7 +122,7 @@ The library uses the same bundled schema and validator as the CLI.
 import {
   getBundledSchema,
   validate
-} from "edatasheet-cli";
+} from "@diodeinc/edatasheet";
 ```
 
 ### `getBundledSchema()`
@@ -169,7 +169,7 @@ It always returns one structured validation report:
 
 ### Example library usage
 ```js
-import { validate } from "edatasheet-cli";
+import { validate } from "@diodeinc/edatasheet";
 
 const inMemory = await validate({
   componentID: {
