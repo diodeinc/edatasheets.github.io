@@ -66,6 +66,10 @@ Version command options:
 `);
 }
 
+function formatValidateOutput(result) {
+    return result.results.length === 1 ? result.results[0] : result;
+}
+
 async function runValidate(argv) {
     const { options, positionals } = parseGlobalOptions(argv);
     if (positionals.length === 0) {
@@ -79,7 +83,7 @@ async function runValidate(argv) {
         entryId: options.entryId
     });
 
-    console.log(JSON.stringify(result.results.length === 1 ? result.results[0] : { results: result.results }, null, 2));
+    console.log(JSON.stringify(formatValidateOutput(result), null, 2));
     process.exit(result.valid ? 0 : 1);
 }
 
@@ -96,7 +100,10 @@ async function runLint(argv) {
         entryId: options.entryId
     });
 
-    for (const report of result.results) {
+    for (const [index, report] of result.results.entries()) {
+        if (index > 0) {
+            console.log("");
+        }
         console.log(formatPrettyReport(report));
     }
 

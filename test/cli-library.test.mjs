@@ -57,3 +57,18 @@ test("CLI validate exits successfully for a known-good example", async () => {
     assert.equal(report.valid, true);
     assert.equal(report.summary.error_count, 0);
 });
+
+test("CLI validate preserves aggregate status for multiple files", async () => {
+    const { stdout } = await execFileAsync(
+        "node",
+        [cliPath, "validate", validExamplePath, validExamplePath],
+        {
+            cwd: repoRoot
+        }
+    );
+
+    const payload = JSON.parse(stdout);
+    assert.equal(payload.valid, true);
+    assert.equal(payload.results.length, 2);
+    assert.ok(payload.results.every((report) => report.valid === true));
+});

@@ -64,6 +64,11 @@ Example:
 edatasheet validate examples/ic_microcontroller/STM32F302R6T6TR.json
 ```
 
+When validating multiple files, the JSON output keeps the aggregate top-level result:
+```bash
+edatasheet validate examples/a.json examples/b.json
+```
+
 Example output:
 ```json
 {
