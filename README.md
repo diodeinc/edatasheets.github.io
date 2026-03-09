@@ -1,206 +1,3 @@
-# @diodeinc/edatasheet
-
-`@diodeinc/edatasheet` is a dual-purpose npm package:
-
-- a CLI for validating Electronic Datasheet (EDS) JSON documents
-- a small JavaScript library that exposes the same bundled schema and validation logic
-
-The package ships with the full bundled JSON Schema 2020-12 compound schema, so validation works locally with no network fetches and no separate schema checkout. This fork is published and maintained from [`diodeinc/edatasheets.github.io`](https://github.com/diodeinc/edatasheets.github.io).
-
-## Why this package exists
-
-The package is meant to be a stable local entrypoint for EDS tooling:
-
-- `edatasheet validate` gives deterministic machine-readable validation output
-- `edatasheet lint` gives a shorter terminal-oriented report
-- `edatasheet schema` emits the exact bundled schema used by the package
-- the library API exposes the same validator and bundled schema to Node.js code
-
-## Public API
-
-The public API surface is intentionally small and limited to:
-
-- `getBundledSchema()`
-- `validate(input, options?)`
-
-Anything else in the package should be treated as internal.
-
-## Install
-
-### CLI install
-```bash
-pnpm add -g @diodeinc/edatasheet
-edatasheet version
-```
-
-### Library install
-```bash
-pnpm add @diodeinc/edatasheet
-```
-
-## CLI
-
-### Commands
-```bash
-edatasheet validate <json-file...>
-edatasheet lint <json-file...>
-edatasheet schema
-edatasheet version
-```
-
-### Common examples
-```bash
-edatasheet version
-edatasheet schema --pretty > component.compound.schema.json
-edatasheet validate examples/ic_microcontroller/STM32F302R6T6TR.json
-edatasheet lint examples/ic_microcontroller/STM32F302R6T6TR.json
-```
-
-### `validate`
-`validate` emits deterministic structured JSON reports intended for automation, CI, and model consumption. It exits non-zero when any file is invalid.
-
-Example:
-```bash
-edatasheet validate examples/ic_microcontroller/STM32F302R6T6TR.json
-```
-
-When validating multiple files, the JSON output keeps the aggregate top-level result:
-```bash
-edatasheet validate examples/a.json examples/b.json
-```
-
-Example output:
-```json
-{
-  "file": "examples/ic_microcontroller/STM32F302R6T6TR.json",
-  "valid": true,
-  "summary": {
-    "error_count": 0,
-    "missing_required": 0,
-    "type_errors": 0,
-    "enum_errors": 0,
-    "unknown_fields": 0,
-    "constraint_errors": 0,
-    "composition_errors": 0,
-    "other_errors": 0
-  }
-}
-```
-
-### `lint`
-`lint` emits a shorter human-readable report for terminal use.
-
-Example:
-```bash
-edatasheet lint examples/ic_microcontroller/STM32F302R6T6TR.json
-```
-
-### `schema`
-`schema` prints the embedded bundled schema to stdout or to a file.
-
-Examples:
-```bash
-edatasheet schema --id
-edatasheet schema --pretty
-edatasheet schema --output component.compound.schema.json
-```
-
-### `version`
-`version` prints package and bundled schema metadata.
-
-Examples:
-```bash
-edatasheet version
-edatasheet version --json
-```
-
-## Library
-
-The library uses the same bundled schema and validator as the CLI.
-
-```js
-import {
-  getBundledSchema,
-  validate
-} from "@diodeinc/edatasheet";
-```
-
-### `getBundledSchema()`
-Returns the embedded bundled schema as a parsed JavaScript object.
-
-### `validate(input, options?)`
-Validates either:
-
-- an in-memory JavaScript object
-- a file path string
-- a `file:` URL
-
-It always returns one structured validation report:
-
-```js
-{
-  file: string,
-  valid: boolean,
-  summary: {
-    error_count: number,
-    missing_required: number,
-    type_errors: number,
-    enum_errors: number,
-    unknown_fields: number,
-    constraint_errors: number,
-    composition_errors: number,
-    other_errors: number
-  },
-  missing_required: string[],
-  type_errors: object[],
-  enum_errors: object[],
-  unknown_fields: object[],
-  constraint_errors: object[],
-  composition_errors: object[],
-  other_errors: object[],
-  raw_errors: object[]
-}
-```
-
-`options` supports:
-
-- `schemaPath`
-- `entryId`
-
-### Example library usage
-```js
-import { validate } from "@diodeinc/edatasheet";
-
-const inMemory = await validate({
-  componentID: {
-    partType: "microcontroller"
-  }
-});
-
-const onDisk = await validate("examples/ic_microcontroller/STM32F302R6T6TR.json");
-
-console.log(inMemory.valid);
-console.log(onDisk.valid);
-```
-
-If you need batch validation, pretty terminal formatting, or schema export, use the CLI.
-
-## Local Development
-
-```bash
-pnpm install
-pnpm test
-pnpm run build:compound-schema
-pnpm run edatasheet -- version
-pnpm run edatasheet -- validate examples/ic_microcontroller/STM32F302R6T6TR.json
-pnpm run validate:json-report -- examples/ic_microcontroller/STM32F302R6T6TR.json
-pnpm pack
-```
-
-## Specification Reference
-
-The rest of this README is the underlying EDS background/specification content preserved from the repository.
-
 ## Background
 ### 1 Introduction 
 As the demand for hardware design automation tools grows, the need for machine-readable datasheets becomes more critical. Establishing a standardized Electronic Datasheet (EDS) specification alleviates the burden on component vendors to produce multiple datasheets for various tools, promoting the reuse of tools across different designs.
@@ -219,7 +16,7 @@ This document is designed for EDS producers, such as component vendors, and for 
 
 #### 1.4 References
 - The JSON data interchange syntax, [ECMA-404, 2nd edition, December 2017](https://www.ecma-international.org/publications-and-standards/standards/ecma-404/)
-- JSON Schema, [Draft 2020-12](https://json-schema.org/draft/2020-12)
+- JSON Schema: A media Type for Describing JSON Documents, [draft-bhutton-json-schema-00, December 2020](https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-00).
 - Terms, Definitions, and Letter Symbols for Microelectronic Devices, JESD99C – December 2012
 
 ### 2. Working with Electronic Datasheets 
@@ -284,7 +81,7 @@ Source: [component.json](https://github.com/edatasheets/digital-datasheets/blob/
 |componentPropertyExternalFiles|external files that describe key component properties. External files can be used in lieu of defining core properties, pins, and package information in the same file|./common/externalFileMap.json#/externalFileMap|No|
 |additionalSpecExternalFiles|external files that contain information outside of the json spec. Examples include layout, simulation, etc.|./common/externalFile.json#/externalFile|No|
 |reliability|reliability information about the component|./common/reliability.json#/reliability|No|
-|powerSequence|information about component power sequencing|./common/powerSequence.json#/powerSequence|No|
+|powerSequence|information about component power sequencing|./common/powerSequence.json#/powerSequenceTable|No|
 ### 4.5	 Common
 
 ####  4.5.1	 Specification To Capture Information To Identify Components
@@ -1547,3 +1344,4 @@ Source: [undefined_ic.json](https://github.com/edatasheets/edatasheets.github.io
 |Property|Description|JSON Data Type|Required?|
 |:----|:----|:----|:----|
 |currentConsumption|current used by device in various power modes|array of ../common/currentConsumption.json#/currentConsumption| |
+
