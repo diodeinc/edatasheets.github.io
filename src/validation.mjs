@@ -32,6 +32,9 @@ const constraintKeywords = new Set([
 const compositionKeywords = new Set(["oneOf", "anyOf", "allOf", "not", "if", "then", "else"]);
 
 export function displayPath(targetPath, cwd = process.cwd()) {
+    if (typeof targetPath !== "string" || targetPath.startsWith("<")) {
+        return String(targetPath);
+    }
     const relative = path.relative(cwd, targetPath);
     if (relative === "") {
         return ".";
@@ -362,6 +365,18 @@ export async function validateFiles({
         valid: !hasFailures,
         results
     };
+}
+
+export async function validateDocument({
+    data,
+    label = "<memory>",
+    schemaPath = defaultSchemaPath,
+    entryId = defaultEntryId,
+    cwd = process.cwd()
+}) {
+    const { validate } = await createValidator({ schemaPath, entryId });
+    validate(data);
+    return buildReport(label, data, validate.errors || [], cwd);
 }
 
 export async function loadPackageMetadata() {

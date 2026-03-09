@@ -21,8 +21,7 @@ The package is meant to be a stable local entrypoint for EDS tooling:
 The public API surface is intentionally small and limited to:
 
 - `getBundledSchema()`
-- `validateData(data, options?)`
-- `validateFile(filePath, options?)`
+- `validate(input, options?)`
 
 Anything else in the package should be treated as internal.
 
@@ -117,27 +116,44 @@ The library uses the same bundled schema and validator as the CLI.
 ```js
 import {
   getBundledSchema,
-  validateData,
-  validateFile
+  validate
 } from "edatasheet-cli";
 ```
 
 ### `getBundledSchema()`
 Returns the embedded bundled schema as a parsed JavaScript object.
 
-### `validateData(data, options?)`
-Validates an in-memory JavaScript object and returns a minimal validator result:
+### `validate(input, options?)`
+Validates either:
+
+- an in-memory JavaScript object
+- a file path string
+- a `file:` URL
+
+It always returns one structured validation report:
 
 ```js
 {
+  file: string,
   valid: boolean,
-  errors: Array<{
-    keyword: string,
-    instancePath: string,
-    schemaPath: string,
-    message: string,
-    params: object
-  }>
+  summary: {
+    error_count: number,
+    missing_required: number,
+    type_errors: number,
+    enum_errors: number,
+    unknown_fields: number,
+    constraint_errors: number,
+    composition_errors: number,
+    other_errors: number
+  },
+  missing_required: string[],
+  type_errors: object[],
+  enum_errors: object[],
+  unknown_fields: object[],
+  constraint_errors: object[],
+  composition_errors: object[],
+  other_errors: object[],
+  raw_errors: object[]
 }
 ```
 
@@ -146,26 +162,23 @@ Validates an in-memory JavaScript object and returns a minimal validator result:
 - `schemaPath`
 - `entryId`
 
-### `validateFile(filePath, options?)`
-Validates one JSON file and returns the structured report object used by the CLI.
-
 ### Example library usage
 ```js
-import { validateData, validateFile } from "edatasheet-cli";
+import { validate } from "edatasheet-cli";
 
-const inMemory = await validateData({
+const inMemory = await validate({
   componentID: {
     partType: "microcontroller"
   }
 });
 
-const onDisk = await validateFile("examples/ic_microcontroller/STM32F302R6T6TR.json");
+const onDisk = await validate("examples/ic_microcontroller/STM32F302R6T6TR.json");
 
 console.log(inMemory.valid);
 console.log(onDisk.valid);
 ```
 
-If you need batch validation, pretty terminal formatting, or schema export, use the CLI rather than relying on internal library helpers.
+If you need batch validation, pretty terminal formatting, or schema export, use the CLI.
 
 ## Local Development
 

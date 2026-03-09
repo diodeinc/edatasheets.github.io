@@ -6,8 +6,7 @@ import { promisify } from "node:util";
 
 import {
     getBundledSchema,
-    validateData,
-    validateFile
+    validate
 } from "../src/index.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -21,19 +20,20 @@ test("library exposes the bundled schema", () => {
     assert.equal(schema.$schema, "https://json-schema.org/draft/2020-12/schema");
 });
 
-test("validateData returns actionable validation errors", async () => {
-    const result = await validateData({
+test("validate returns actionable validation errors for in-memory data", async () => {
+    const result = await validate({
         componentID: {
             partType: "microcontroller"
         }
     });
 
     assert.equal(result.valid, false);
-    assert.ok(result.errors.some((error) => error.keyword === "required"));
+    assert.equal(result.file, "<memory>");
+    assert.ok(result.missing_required.length > 0);
 });
 
-test("validateFile returns a valid report for a known-good example", async () => {
-    const report = await validateFile(validExamplePath);
+test("validate returns a valid report for a known-good example file", async () => {
+    const report = await validate(validExamplePath);
 
     assert.equal(report.valid, true);
     assert.equal(report.summary.error_count, 0);

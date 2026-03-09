@@ -1,32 +1,37 @@
-import {
-    createValidator,
-    readBundledSchema,
-    validateFiles
-} from "./validation.mjs";
+import { fileURLToPath } from "node:url";
+
+import { readBundledSchema, validateDocument, validateFiles } from "./validation.mjs";
 
 export function getBundledSchema() {
     return JSON.parse(readBundledSchema());
 }
 
-export async function validateData(data, options = {}) {
-    const { validate } = await createValidator(options);
-    const valid = validate(data);
-    return {
-        valid,
-        errors: (validate.errors || []).map((error) => ({
-            keyword: error.keyword,
-            instancePath: error.instancePath,
-            schemaPath: error.schemaPath,
-            message: error.message,
-            params: error.params
-        }))
-    };
-}
+export async function validate(input, options = {}) {
+    if (typeof input === "string") {
+        const result = await validateFiles({
+            ...options,
+            dataPaths: [input]
+        });
+        return result.results[0];
+    }
 
-export async function validateFile(filePath, options = {}) {
-    const result = await validateFiles({
-        ...options,
-        dataPaths: [filePath]
-    });
-    return result.results[0];
+    if (input instanceof URL) {
+        if (input.protocol !== "file:") {
+            throw new TypeError(`validate() only supports file: URLs, got ${input.protocol}`);
+        }
+        const result = await validateFiles({
+            ...options,
+            dataPaths: [fileURLToPath(input)]
+        });
+        return result.results[0];
+    }
+
+    if (input && typeof input === "object") {
+        return validateDocument({
+            ...options,
+            data: input
+        });
+    }
+
+    throw new TypeError("validate() expects a JavaScript object, file path string, or file: URL");
 }
