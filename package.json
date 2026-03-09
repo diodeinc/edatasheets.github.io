@@ -1,12 +1,20 @@
 {
     "name": "edatasheet-cli",
     "version": "0.1.0",
-    "description": "CLI for validating and inspecting Electronic Datasheet (EDS) JSON documents.",
+    "description": "Dual-purpose CLI and JavaScript library for validating Electronic Datasheet (EDS) JSON documents.",
     "license": "Apache-2.0",
     "type": "module",
     "packageManager": "pnpm@10.17.1",
+    "main": "./src/index.mjs",
+    "exports": {
+        ".": "./src/index.mjs",
+        "./package.json": "./package.json"
+    },
     "bin": {
         "edatasheet": "./bin/edatasheet.mjs"
+    },
+    "publishConfig": {
+        "access": "public"
     },
     "files": [
         "bin",
@@ -18,23 +26,30 @@
     "scripts": {
         "edatasheet": "node bin/edatasheet.mjs",
         "build:compound-schema": "node scripts/build-compound-schema.mjs",
-        "validate:json-report": "node scripts/validate-json-report.mjs"
+        "validate:json-report": "node scripts/validate-json-report.mjs",
+        "test": "node --test",
+        "prepack": "node scripts/build-compound-schema.mjs"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/edatasheets/edatasheets.github.io.git"
+        "url": "git+https://github.com/diodeinc/edatasheets.github.io.git"
     },
-    "homepage": "https://github.com/edatasheets/edatasheets.github.io",
+    "homepage": "https://github.com/diodeinc/edatasheets.github.io",
     "bugs": {
-        "url": "https://github.com/edatasheets/edatasheets.github.io/issues"
+        "url": "https://github.com/diodeinc/edatasheets.github.io/issues"
     },
     "keywords": [
         "json-schema",
         "electronics",
         "datasheet",
         "hardware",
-        "cli"
+        "cli",
+        "validator",
+        "library"
     ],
+    "engines": {
+        "node": ">=20"
+    },
     "dependencies": {
         "ajv": "^8.17.1"
     }

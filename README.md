@@ -1,24 +1,211 @@
+# edatasheet-cli
+
+`edatasheet-cli` is a dual-purpose npm package:
+
+- a CLI for validating Electronic Datasheet (EDS) JSON documents
+- a small JavaScript library that exposes the same bundled schema and validation logic
+
+The package ships with the full bundled JSON Schema 2020-12 compound schema, so validation works locally with no network fetches and no separate schema checkout. This fork is published and maintained from [`diodeinc/edatasheets.github.io`](https://github.com/diodeinc/edatasheets.github.io).
+
+## Why this package exists
+
+The package is meant to be a stable local entrypoint for EDS tooling:
+
+- `edatasheet validate` gives deterministic machine-readable validation output
+- `edatasheet lint` gives a shorter terminal-oriented report
+- `edatasheet schema` emits the exact bundled schema used by the package
+- the library API exposes the same validator and bundled schema to Node.js code
+
+## Public API
+
+The public API surface is intentionally small and limited to:
+
+- `getBundledSchema()`
+- `getBundledSchemaString()`
+- `validateData(data, options?)`
+- `validateFile(filePath, options?)`
+- `validateFiles({ dataPaths, schemaPath?, entryId?, cwd? })`
+- `formatPrettyReport(report)`
+
+Anything else in the package should be treated as internal.
+
+## Install
+
+### CLI install
+```bash
+pnpm add -g edatasheet-cli
+edatasheet version
+```
+
+### Library install
+```bash
+pnpm add edatasheet-cli
+```
+
+## CLI
+
+### Commands
+```bash
+edatasheet validate <json-file...>
+edatasheet lint <json-file...>
+edatasheet schema
+edatasheet version
+```
+
+### Common examples
+```bash
+edatasheet version
+edatasheet schema --pretty > component.compound.schema.json
+edatasheet validate examples/ic_microcontroller/STM32F302R6T6TR.json
+edatasheet lint examples/ic_microcontroller/STM32F302R6T6TR.json
+```
+
+### `validate`
+`validate` emits deterministic structured JSON reports intended for automation, CI, and model consumption. It exits non-zero when any file is invalid.
+
+Example:
+```bash
+edatasheet validate examples/ic_microcontroller/STM32F302R6T6TR.json
+```
+
+Example output:
+```json
+{
+  "file": "examples/ic_microcontroller/STM32F302R6T6TR.json",
+  "valid": true,
+  "summary": {
+    "error_count": 0,
+    "missing_required": 0,
+    "type_errors": 0,
+    "enum_errors": 0,
+    "unknown_fields": 0,
+    "constraint_errors": 0,
+    "composition_errors": 0,
+    "other_errors": 0
+  }
+}
+```
+
+### `lint`
+`lint` emits a shorter human-readable report for terminal use.
+
+Example:
+```bash
+edatasheet lint examples/ic_microcontroller/STM32F302R6T6TR.json
+```
+
+### `schema`
+`schema` prints the embedded bundled schema to stdout or to a file.
+
+Examples:
+```bash
+edatasheet schema --id
+edatasheet schema --pretty
+edatasheet schema --output component.compound.schema.json
+```
+
+### `version`
+`version` prints package and bundled schema metadata.
+
+Examples:
+```bash
+edatasheet version
+edatasheet version --json
+```
+
+## Library
+
+The library uses the same bundled schema and validator as the CLI.
+
+```js
+import {
+  getBundledSchema,
+  getBundledSchemaString,
+  validateData,
+  validateFile,
+  validateFiles,
+  formatPrettyReport
+} from "edatasheet-cli";
+```
+
+### `getBundledSchema()`
+Returns the embedded bundled schema as a parsed JavaScript object.
+
+### `getBundledSchemaString()`
+Returns the embedded bundled schema as a JSON string.
+
+### `validateData(data, options?)`
+Validates an in-memory JavaScript object and returns a minimal validator result:
+
+```js
+{
+  valid: boolean,
+  errors: Array<{
+    keyword: string,
+    instancePath: string,
+    schemaPath: string,
+    message: string,
+    params: object
+  }>
+}
+```
+
+`options` supports:
+
+- `schemaPath`
+- `entryId`
+
+### `validateFile(filePath, options?)`
+Validates one JSON file and returns the structured report object used by the CLI.
+
+### `validateFiles({ dataPaths, schemaPath?, entryId?, cwd? })`
+Validates multiple files and returns:
+
+```js
+{
+  valid: boolean,
+  results: Array<Report>
+}
+```
+
+### `formatPrettyReport(report)`
+Formats one structured validation report into a compact human-readable string.
+
+### Example library usage
+```js
+import { validateData, validateFile } from "edatasheet-cli";
+
+const inMemory = await validateData({
+  componentID: {
+    partType: "microcontroller"
+  }
+});
+
+const onDisk = await validateFile("examples/ic_microcontroller/STM32F302R6T6TR.json");
+
+console.log(inMemory.valid);
+console.log(onDisk.valid);
+```
+
+## Local Development
+
+```bash
+pnpm install
+pnpm test
+pnpm run build:compound-schema
+pnpm run edatasheet -- version
+pnpm run edatasheet -- validate examples/ic_microcontroller/STM32F302R6T6TR.json
+pnpm run validate:json-report -- examples/ic_microcontroller/STM32F302R6T6TR.json
+pnpm pack
+```
+
+## Specification Reference
+
+The rest of this README is the underlying EDS background/specification content preserved from the repository.
+
 ## Background
 ### 1 Introduction 
 As the demand for hardware design automation tools grows, the need for machine-readable datasheets becomes more critical. Establishing a standardized Electronic Datasheet (EDS) specification alleviates the burden on component vendors to produce multiple datasheets for various tools, promoting the reuse of tools across different designs.
-
-### CLI
-This repository now includes an `edatasheet` CLI that ships with the bundled 2020-12 compound schema and validates EDS JSON locally.
-
-#### Install
-```bash
-pnpm install
-```
-
-#### Common Commands
-```bash
-node bin/edatasheet.mjs version
-node bin/edatasheet.mjs schema --pretty > component.compound.schema.json
-node bin/edatasheet.mjs validate examples/ic_microcontroller/STM32F302R6T6TR.json
-node bin/edatasheet.mjs lint examples/ic_microcontroller/STM32F302R6T6TR.json
-```
-
-The published npm package exposes the same commands through the `edatasheet` binary.
 
 #### 1.1 Objectives
 Component manufacturers produce datasheets to document various details about their components, such as performance, electrical characteristics, size, orientation, and packaging. EDS provide this information in a machine-readable format. The goal of this specification is to establish a standardized, machine-readable format for representing component datasheets.
