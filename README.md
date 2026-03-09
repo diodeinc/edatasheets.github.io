@@ -21,11 +21,8 @@ The package is meant to be a stable local entrypoint for EDS tooling:
 The public API surface is intentionally small and limited to:
 
 - `getBundledSchema()`
-- `getBundledSchemaString()`
 - `validateData(data, options?)`
 - `validateFile(filePath, options?)`
-- `validateFiles({ dataPaths, schemaPath?, entryId?, cwd? })`
-- `formatPrettyReport(report)`
 
 Anything else in the package should be treated as internal.
 
@@ -120,19 +117,13 @@ The library uses the same bundled schema and validator as the CLI.
 ```js
 import {
   getBundledSchema,
-  getBundledSchemaString,
   validateData,
-  validateFile,
-  validateFiles,
-  formatPrettyReport
+  validateFile
 } from "edatasheet-cli";
 ```
 
 ### `getBundledSchema()`
 Returns the embedded bundled schema as a parsed JavaScript object.
-
-### `getBundledSchemaString()`
-Returns the embedded bundled schema as a JSON string.
 
 ### `validateData(data, options?)`
 Validates an in-memory JavaScript object and returns a minimal validator result:
@@ -158,19 +149,6 @@ Validates an in-memory JavaScript object and returns a minimal validator result:
 ### `validateFile(filePath, options?)`
 Validates one JSON file and returns the structured report object used by the CLI.
 
-### `validateFiles({ dataPaths, schemaPath?, entryId?, cwd? })`
-Validates multiple files and returns:
-
-```js
-{
-  valid: boolean,
-  results: Array<Report>
-}
-```
-
-### `formatPrettyReport(report)`
-Formats one structured validation report into a compact human-readable string.
-
 ### Example library usage
 ```js
 import { validateData, validateFile } from "edatasheet-cli";
@@ -186,6 +164,8 @@ const onDisk = await validateFile("examples/ic_microcontroller/STM32F302R6T6TR.j
 console.log(inMemory.valid);
 console.log(onDisk.valid);
 ```
+
+If you need batch validation, pretty terminal formatting, or schema export, use the CLI rather than relying on internal library helpers.
 
 ## Local Development
 

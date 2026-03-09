@@ -5,7 +5,6 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
 import {
-    formatPrettyReport,
     getBundledSchema,
     validateData,
     validateFile
@@ -38,7 +37,7 @@ test("validateFile returns a valid report for a known-good example", async () =>
 
     assert.equal(report.valid, true);
     assert.equal(report.summary.error_count, 0);
-    assert.equal(formatPrettyReport(report), `${path.relative(process.cwd(), validExamplePath)}: valid`);
+    assert.equal(report.file, path.relative(process.cwd(), validExamplePath));
 });
 
 test("CLI can print the bundled schema id", async () => {

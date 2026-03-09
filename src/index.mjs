@@ -1,15 +1,8 @@
 import {
     createValidator,
-    formatPrettyReport,
     readBundledSchema,
     validateFiles
 } from "./validation.mjs";
-
-export { formatPrettyReport };
-
-export function getBundledSchemaString() {
-    return readBundledSchema();
-}
 
 export function getBundledSchema() {
     return JSON.parse(readBundledSchema());
@@ -37,5 +30,3 @@ export async function validateFile(filePath, options = {}) {
     });
     return result.results[0];
 }
-
-export { validateFiles };
